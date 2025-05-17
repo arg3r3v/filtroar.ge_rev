@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ar.ge_rev</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- A-Frame y MindAR -->
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+
+    <!-- animation-mixer -->
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@6.1.0/dist/aframe-extras.min.js"></script>
+
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        width: 100%;
+        height: 100%;
+      }
+
+      a-scene {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <a-scene
+      mindar-image="imageTargetSrc: https://cdn.glitch.global/6638adfb-0af9-4e3d-af60-4b7d3fc10018/targets%20(12).mind?v=1747429066636; autoStart: true"
+      embedded
+      color-space="sRGB"
+      renderer="colorManagement: true, physicallyCorrectLights: true"
+      vr-mode-ui="enabled: false"
+      device-orientation-permission-ui="enabled: true"
+    >
+      <a-assets>
+        <!-- Modelo 1 -->
+        <a-asset-item id="craneo" src="https://cdn.glitch.global/6638adfb-0af9-4e3d-af60-4b7d3fc10018/craneo.glb?v=1746764541158"></a-asset-item>
+        <!-- Modelo 2 -->
+        <a-asset-item id="corazon" src="https://cdn.glitch.global/6638adfb-0af9-4e3d-af60-4b7d3fc10018/corazonhparafiltro.glb?v=1747440871841"></a-asset-item>
+        <!-- Modelo 3 -->
+        <a-asset-item id="aluxe" src="https://cdn.glitch.global/6638adfb-0af9-4e3d-af60-4b7d3fc10018/aluxefiltro.glb?v=1747441317346"></a-asset-item>
+      </a-assets>
+
+      <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+
+      <!-- Marcador 0 -->
+      <a-entity mindar-image-target="targetIndex: 0">
+        <a-entity id="modelo1" gltf-model="#craneo" scale="0.5 0.5 0.5" position="0 0.5 0" rotation="0 180 0" iniciar-animacion></a-entity>
+      </a-entity>
+
+      <!-- Marcador 1 -->
+      <a-entity mindar-image-target="targetIndex: 1">
+        <a-entity id="modelo2-entidad" gltf-model="#corazon" scale="0.5 0.5 0.5" position="0 0 0" rotation="0 180 0" iniciar-animacion></a-entity>
+      </a-entity>
+
+      <!-- Marcador 2 -->
+      <a-entity mindar-image-target="targetIndex: 2">
+        <a-entity id="modelo3-entidad" gltf-model="#aluxe" scale="0.5 0.5 0.5" position="0 0 0" rotation="0 180 0" iniciar-animacion></a-entity>
+      </a-entity>
+    </a-scene>
+
+    <script>
+      AFRAME.registerComponent("iniciar-animacion", {
+        init: function () {
+          const el = this.el;
+          el.addEventListener("model-loaded", () => {
+            el.setAttribute("animation-mixer", {
+              clip: "*",
+              loop: "repeat",
+              timeScale: 1,
+            });
+          });
+        },
+      });
+    </script>
+  </body>
+</html>
